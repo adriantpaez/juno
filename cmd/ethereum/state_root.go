@@ -28,13 +28,7 @@ func GetStateRoot() common.Hash {
 		case err := <-sub.Err():
 			log.Fatal(err)
 		case header := <-headers:
-
-			block, err := client.BlockByHash(context.Background(), header.Hash())
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			fmt.Println(block.Root())
+			fmt.Println(header.Root)
 		}
 	}
 }

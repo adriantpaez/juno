@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-
 	baseURL := configs.MainnetGateway
 	prv := provider.NewProvider(baseURL)
 	// opt := provider.BlockOptions{}
