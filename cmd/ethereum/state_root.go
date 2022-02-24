@@ -2,8 +2,8 @@ package ethereum
 
 import (
 	"context"
-	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/NethermindEth/juno/configs"
 	"github.com/ethereum/go-ethereum/common"
@@ -14,13 +14,13 @@ import (
 func GetStateRoot() common.Hash {
 	client, err := ethclient.Dial(configs.EthereumNode)
 	if err != nil {
-		log.Fatal(err)
+		log.WithField("Error", err).Fatalf("Unable to connect to Ethereum Client")
 	}
 
 	headers := make(chan *types.Header)
 	sub, err := client.SubscribeNewHead(context.Background(), headers)
 	if err != nil {
-		log.Fatal(err)
+		log.WithField("Error", err).Fatalf("Unable to subscribe to block headers")
 	}
 
 	for {
@@ -28,7 +28,9 @@ func GetStateRoot() common.Hash {
 		case err := <-sub.Err():
 			log.Fatal(err)
 		case header := <-headers:
-			fmt.Println(header.Root)
+			log.WithFields(log.Fields{
+				"stateRoot": header.Root,
+			}).Debug("State root retrieved from L1")
 		}
 	}
 }
