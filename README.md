@@ -1,38 +1,39 @@
 # juno
 
-![Juno Logo](./.github/juno.jpg?raw=true)
+<div align="center"><img width="128" src="./docs/static/img/juno_rounded.png"></div>
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/NethermindEth/juno)](https://goreportcard.com/report/github.com/NethermindEth/juno)
+Starknet client implementation.
 
-[![Actions Status](https://github.com/NethermindEth/juno/actions/workflows/juno-build.yml/badge.svg)](https://github.com/NethermindEth/juno/actions)
+[![Go Reference](https://pkg.go.dev/badge/github.com/NethermindEth/juno.svg)](https://pkg.go.dev/github.com/NethermindEth/juno) [![Go Report Card](https://goreportcard.com/badge/github.com/NethermindEth/juno)](https://goreportcard.com/report/github.com/NethermindEth/juno) [![Actions Status](https://github.com/NethermindEth/juno/actions/workflows/juno-build.yml/badge.svg)](https://github.com/NethermindEth/juno/actions) [![codecov](https://codecov.io/gh/NethermindEth/juno/branch/main/graph/badge.svg)](https://codecov.io/gh/NethermindEth/juno)
 
-[![codecov](https://codecov.io/gh/NethermindEth/juno/branch/main/graph/badge.svg)](https://codecov.io/gh/NethermindEth/juno)
+## Building from source
 
-Juno is a StarkNet client written in Go.
+Run the following command.
 
-[Docs](https://nethermindeth.github.io/juno/)
+```sh
+% make all
+```
 
-Here you will find various links to help you start with the StarkNet ecosystem.
+## Executables
 
-[StarkNet Docs](https://starknet.io/)
+<table>
+  <tr><th>Command</th><th>Description</th></tr>
+  <tr>
+    <td><code>juno</code></td>
+    <td>The StarkNet full node client.</td>
+  <tr>
+</table>
 
-[Voyager block explorer](https://voyager.online)
+## Configuration
 
-[Warp Docs](https://github.com/NethermindEth/warp)
+**juno** uses a configuration file named **config.yaml** that is located in the `$HOME/.juno/` directory. It generally looks like the following and a default will be generated if one does not exist. 
 
-[CairoLang Docs](https://www.cairo-lang.org/)
-
-[StarkEx Docs](https://docs.starkware.co/starkex-v4)
-
-[StarkNet Devs Discord](https://discord.com/invite/uJ9HZTUk2Y)
-
-[StarkNet Shamans Forum](https://community.starknet.io/)
-
-[StarkNet Medium](https://medium.com/starkware/starknet/home)
-
-[StarkNet Twitter](https://twitter.com/Starknet_Intern)
-
-[Nethermind Twitter](https://twitter.com/NethermindEth)
+```yaml
+rpc:
+  enabled: false
+  port: 8080
+db_path: $HOME/.juno/data
+```
 
 ## Logging 
 
