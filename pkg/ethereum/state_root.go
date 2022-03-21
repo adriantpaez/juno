@@ -8,17 +8,23 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 )
 
-func NewClient(ethereumNode string) *ethclient.Client {
+type Synchronizer struct {
+	client *ethclient.Client
+}
+
+func NewSynchronizer(ethereumNode string) *Synchronizer {
 	client, err := ethclient.Dial(ethereumNode)
 	if err != nil {
 		log.Default.With("Error", err).Fatal("Unable to connect to Ethereum Client")
 	}
-	return client
+	return &Synchronizer{
+		client: client,
+	}
 }
 
-func UpdateStateRoot(client *ethclient.Client, stop chan bool) {
+func (s Synchronizer) UpdateStateRoot() error {
 	headers := make(chan *types.Header)
-	sub, err := client.SubscribeNewHead(context.Background(), headers)
+	sub, err := s.client.SubscribeNewHead(context.Background(), headers)
 	if err != nil {
 		log.Default.With("Error", err).Fatalf("Unable to subscribe to block headers")
 	}
@@ -30,10 +36,16 @@ func UpdateStateRoot(client *ethclient.Client, stop chan bool) {
 		case header := <-headers:
 			log.Default.With("stateRoot", header.Root).Debug("State root retrieved from L1")
 			// TODO store ethereum state
-		case <-stop:
-			log.Default.Info("Closing L1 connection...")
-			client.Close()
-			return
 		}
+	}
+}
+
+func (s Synchronizer) Close(ctx context.Context) {
+	// notest
+	log.Default.Info("Closing Layer 1 Synchronizer")
+	select {
+	case <-ctx.Done():
+		s.client.Close()
+	default:
 	}
 }
