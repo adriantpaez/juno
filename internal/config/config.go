@@ -21,8 +21,9 @@ type rpcConfig struct {
 
 // Config represents the juno configuration.
 type Config struct {
-	Rpc    rpcConfig `yaml:"rpc" mapstructure:"rpc"`
-	DbPath string    `yaml:"db_path" mapstructure:"db_path"`
+	Rpc          rpcConfig `yaml:"rpc" mapstructure:"rpc"`
+	DbPath       string    `yaml:"db_path" mapstructure:"db_path"`
+	EthereumNode string    `yaml:"ethereum_node" mapstructure:"ethereum_node"`
 }
 
 var (
