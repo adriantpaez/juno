@@ -1,3 +1,5 @@
+// Package ethereum contains all the functions related to Ethereum State and Synchronization
+// with Layer 1
 package ethereum
 
 import (
@@ -8,10 +10,12 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 )
 
+// Synchronizer represents the base class for Ethereum Synchronization
 type Synchronizer struct {
 	client *ethclient.Client
 }
 
+// NewSynchronizer creates a new Synchronizer
 func NewSynchronizer(ethereumNode string) *Synchronizer {
 	client, err := ethclient.Dial(ethereumNode)
 	if err != nil {
@@ -22,17 +26,20 @@ func NewSynchronizer(ethereumNode string) *Synchronizer {
 	}
 }
 
+// UpdateStateRoot keeps updating the Ethereum State Root as a process
 func (s Synchronizer) UpdateStateRoot() error {
 	headers := make(chan *types.Header)
 	sub, err := s.client.SubscribeNewHead(context.Background(), headers)
 	if err != nil {
 		log.Default.With("Error", err).Fatalf("Unable to subscribe to block headers")
+		return err
 	}
 
 	for {
 		select {
 		case err := <-sub.Err():
 			log.Default.Fatal(err)
+			return err
 		case header := <-headers:
 			log.Default.With("stateRoot", header.Root).Debug("State root retrieved from L1")
 			// TODO store ethereum state
@@ -40,6 +47,7 @@ func (s Synchronizer) UpdateStateRoot() error {
 	}
 }
 
+// Close closes the client for the Layer 1 Ethereum node
 func (s Synchronizer) Close(ctx context.Context) {
 	// notest
 	log.Default.Info("Closing Layer 1 Synchronizer")
