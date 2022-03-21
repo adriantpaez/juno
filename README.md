@@ -30,9 +30,13 @@ Run the following command.
 
 ```yaml
 rpc:
-  enabled: false
+  enabled: true
   port: 8080
-db_path: $HOME/.juno/data
+db_path: /Users/example/Library/Application Support/juno
+ethereum:
+  enabled: true
+  node: "ethereum_archive_node"
+
 ```
 
 ## Logging 

@@ -19,11 +19,16 @@ type rpcConfig struct {
 	Port    int  `yaml:"port" mapstructure:"port"`
 }
 
+type ethereumConfig struct {
+	Enabled bool   `yaml:"enabled" mapstructure:"enabled"`
+	Node    string `yaml:"node" mapstructure:"node"`
+}
+
 // Config represents the juno configuration.
 type Config struct {
-	Rpc          rpcConfig `yaml:"rpc" mapstructure:"rpc"`
-	DbPath       string    `yaml:"db_path" mapstructure:"db_path"`
-	EthereumNode string    `yaml:"ethereum_node" mapstructure:"ethereum_node"`
+	Rpc      rpcConfig      `yaml:"rpc" mapstructure:"rpc"`
+	DbPath   string         `yaml:"db_path" mapstructure:"db_path"`
+	Ethereum ethereumConfig `yaml:"ethereum" mapstructure:"ethereum"`
 }
 
 var (
@@ -79,8 +84,9 @@ func New() {
 		errpkg.CheckFatal(err, "Failed to create Config directory.")
 	}
 	data, err := yaml.Marshal(&Config{
-		Rpc:    rpcConfig{Enabled: false, Port: 8080},
-		DbPath: Dir,
+		Rpc:      rpcConfig{Enabled: false, Port: 8080},
+		DbPath:   Dir,
+		Ethereum: ethereumConfig{Enabled: false},
 	})
 	errpkg.CheckFatal(err, "Failed to marshal Config instance to byte data.")
 	err = os.WriteFile(f, data, 0644)
