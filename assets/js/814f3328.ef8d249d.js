@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkjuno_docs=self.webpackChunkjuno_docs||[]).push([[2535],{5641:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Running Juno from your Raspberry Pi","permalink":"/blog/junopi"},{"title":"Welcome","permalink":"/blog/welcome"}]}')}}]);
